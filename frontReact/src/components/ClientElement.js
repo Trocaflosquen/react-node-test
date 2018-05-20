@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const ClientElement = props => ( 
     <p>
-        {props.name}
+        👤 {props.name}
     </p>
 )    
 

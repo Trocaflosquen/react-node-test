@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-
 import { Glyphicon, FormControl, ControlLabel, FormGroup, Button } from 'react-bootstrap'
 import ClientElement from './ClientElement';
+
 
 class ClientForm extends Component {
 
@@ -55,6 +55,10 @@ class ClientForm extends Component {
                 break;                
         }
         
+    }
+
+    doSaveAction = () => {
+        this.props.onSave(this.state)
     }
 
     // componentWillMount() {
@@ -113,7 +117,7 @@ class ClientForm extends Component {
                         placeholder="Website"
                         onChange={this.handleChange}
                     />
-                    <Button bsStyle="success" onClick={() => this.props.onSave(this.state)}>Save</Button>
+                    <Button bsStyle="success" onClick={this.doSaveAction}>Save 💾</Button>
                 </FormGroup>
             </form>
         )

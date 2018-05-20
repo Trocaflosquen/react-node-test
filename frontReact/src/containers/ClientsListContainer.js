@@ -58,7 +58,7 @@ class ClientsListContainer extends Component {
                                 <div className="col-xs-2 list-button">    
                                     <ButtonGroup>
                                         <Button onClick={this.removeClientAction(client.id)}>
-                                            <Glyphicon glyph="trash" />
+                                            🔪
                                         </Button>
                                     </ButtonGroup>
                                 </div>    
