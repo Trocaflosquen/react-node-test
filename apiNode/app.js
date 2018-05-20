@@ -24,7 +24,12 @@ app.use(function (req, res, next) {
 const portToListen = process.argv.slice(2)[0] || 3000;
 
 app.get('/', function(request, result) {
-    result.send(clientsJson);
+    result.send(clientsJson.map(function (client) {
+        return {
+            id: client.id,
+            name: client.name
+        }
+    }));
 });
 
 app.route('/client/:id')

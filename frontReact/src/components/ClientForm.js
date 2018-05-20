@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Glyphicon, FormControl, ControlLabel, FormGroup, Button } from 'react-bootstrap'
-import ClientElement from './ClientElement';
-
+import { FormControl, ControlLabel, FormGroup, Button } from 'react-bootstrap'
+import CompanyForm from './CompanyForm';
 
 class ClientForm extends Component {
 
@@ -57,21 +56,14 @@ class ClientForm extends Component {
         
     }
 
-    doSaveAction = () => {
+    doSaveAction = (e) => {
+        e.preventDefault()
         this.props.onSave(this.state)
     }
 
-    // componentWillMount() {
-    //     const getClient = id =>
-    //       fetch(`${API_URL}${API_CLIENT}`+id)
-    //         .then(res => res.json())
-    //         .catch(err => console.log);
-          
-    //       from(getClient(this.clientIdToRequest))
-    //       .subscribe(client => { 
-    //         this.setState({client: client})
-    //       })
-    //   }
+    updateCompanyState = (companyProps) => {
+        this.setState({ company: companyProps})
+    }
 
     render() {
         return (
@@ -117,6 +109,7 @@ class ClientForm extends Component {
                         placeholder="Website"
                         onChange={this.handleChange}
                     />
+                    <CompanyForm onStateChange={this.updateCompanyState} {...this.state.company} />
                     <Button bsStyle="success" onClick={this.doSaveAction}>Save 💾</Button>
                 </FormGroup>
             </form>
