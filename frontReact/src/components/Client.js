@@ -28,7 +28,7 @@ class Client extends Component {
     }
 
     updateClientAction(id) { 
-        return (clientData) => { 
+        return (clientData) => {
             fetch(`${API_URL}${API_CLIENT}`+id, {
                 method: 'PUT',
                 headers: {
@@ -51,9 +51,9 @@ class Client extends Component {
 
 
     render() {
-        return (
+        return (Object.keys(this.state.client).length > 0) ? (
             <ClientForm client={this.state.client} onSave={this.updateClientAction(this.state.client.id)}/>
-        )
+        ) : <p>Loading...</p>
     }
 }
 

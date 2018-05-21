@@ -1,116 +1,90 @@
 import React, { Component } from 'react'
 import { FormControl, ControlLabel, FormGroup, Button } from 'react-bootstrap'
-import CompanyForm from './CompanyForm';
+import CompanyForm from './CompanyForm'
+import AddressForm from './AddressForm';
 
 class ClientForm extends Component {
 
     constructor(props) { 
         super(props)
-        this.handleChange = this.handleChange.bind(this)
-        this.state = {
-            name: '',
-            phone: '',
-            username: '',
-            website: '',
-            email: '',
+        this.clientId = this.props.client.id
+    }
+
+    doSaveAction = (e) => {
+        e.preventDefault()
+        const clientData = {
+            id: this.clientId,
+            name: this.name.value,
+            phone: this.phone.value,
+            username: this.username.value,
+            website: this.website.value,
+            email: this.email.value,
             company: {
-                bs: '',
-                catchPhrase: '',
-                name: ''
+                bs: this.companyForm.bs.value,
+                catchPhrase: this.companyForm.catchPhrase.value,
+                name: this.companyForm.name.value
             },
             address: {
-                city: '',
-                street: '',
-                suite: '',
-                zipcode: '',
+                city: this.addressForm.city.value,
+                street: this.addressForm.street.value,
+                suite: this.addressForm.suite.value,
+                zipcode: this.addressForm.zipcode.value,
                 geo: {
                     lat: '',
                     lng: ''
                 }
             }
         }
-    }
-
-    componentWillReceiveProps(nextProps) { 
-        this.setState(nextProps.client);
-    }
-
-    handleChange(event) {
-        switch (event.target.id) {
-            case 'name':
-                this.setState({name: event.target.value })
-                break;
-            case 'username':
-                this.setState({username: event.target.value })
-                break;
-            case 'email':
-                this.setState({email: event.target.value })
-                break;
-            case 'phone':
-                this.setState({phone: event.target.value })
-                break;
-            case 'website':
-                this.setState({website: event.target.value })
-                break;                
-        }
-        
-    }
-
-    doSaveAction = (e) => {
-        e.preventDefault()
-        this.props.onSave(this.state)
-    }
-
-    updateCompanyState = (companyProps) => {
-        this.setState({ company: companyProps})
+        this.props.onSave(clientData)
     }
 
     render() {
         return (
-            <form>
+            <form onSubmit={this.doSaveAction}>
                 <FormGroup>
                     <ControlLabel>Name</ControlLabel>
                     <FormControl
                         type="text"
                         id="name"
-                        value={this.state.name}
+                        defaultValue={this.props.client.name || "" }
                         placeholder="Name"
-                        onChange={this.handleChange}
+                        inputRef={input => this.name = input}
                     />
                     <ControlLabel>Username</ControlLabel>
                     <FormControl
                         type="text"
                         id="username"
-                        value={this.state.username}
+                        defaultValue={this.props.client.username || "" }
                         placeholder="Username"
-                        onChange={this.handleChange}
+                        inputRef={input => this.username = input}
                     />
                     <ControlLabel>Email</ControlLabel>
                     <FormControl
                         type="email"
                         id="email"
-                        value={this.state.email}
+                        defaultValue={this.props.client.email || "" }
                         placeholder="Email"
-                        onChange={this.handleChange}
+                        inputRef={input => this.email = input}
                     />
                     <ControlLabel>Phone</ControlLabel>
                     <FormControl
                         type="phone"
                         id="phone"
-                        value={this.state.phone}
+                        defaultValue={this.props.client.phone || "" }
                         placeholder="Phone"
-                        onChange={this.handleChange}
+                        inputRef={input => this.phone = input}
                     />
                     <ControlLabel>Website</ControlLabel>
                     <FormControl
                         type="text"
                         id="website"
-                        value={this.state.website}
+                        defaultValue={this.props.client.website || "" }
                         placeholder="Website"
-                        onChange={this.handleChange}
+                        inputRef={input => this.website = input}
                     />
-                    <CompanyForm onStateChange={this.updateCompanyState} {...this.state.company} />
-                    <Button bsStyle="success" onClick={this.doSaveAction}>Save 💾</Button>
+                    <CompanyForm ref={companyForm => this.companyForm = companyForm} {...this.props.client.company}/>
+                    <AddressForm ref={addressForm => this.addressForm = addressForm} {...this.props.client.address}/>
+                    <Button bsStyle="success" type="submit">Save 💾</Button>
                 </FormGroup>
             </form>
         )

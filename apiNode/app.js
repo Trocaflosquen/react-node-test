@@ -24,12 +24,7 @@ app.use(function (req, res, next) {
 const portToListen = process.argv.slice(2)[0] || 3000;
 
 app.get('/', function(request, result) {
-    result.send(clientsJson.map(function (client) {
-        return {
-            id: client.id,
-            name: client.name
-        }
-    }));
+    result.send(clientsJson);
 });
 
 app.route('/client/:id')
@@ -47,11 +42,15 @@ app.route('/client/:id')
         }
     )     
     .put((request, result) => {
+        if(client.id <= 0) {
+            result.status(400).send("Invalid id given");
+        }
         try {
             const clientData = request.body.client; 
             clientsJson[clientsJson.findIndex(client => client.id == request.params.id)] = clientData;
             result.status(200).send(clientData);
-        } catch (error) { console.log(error)
+        } catch (error) { 
+            console.log(error)
             result.status(400).send(error);
         }
     })
