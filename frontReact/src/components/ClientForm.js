@@ -8,7 +8,7 @@ class ClientForm extends Component {
 
     constructor(props) { 
         super(props)
-        this.clientId = this.props.client.id
+        this.clientId = this.props.client.id || null
         this.formElements = [
             {
                 propertyName: "name",

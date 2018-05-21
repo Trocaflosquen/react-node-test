@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fillClientList, removeClient } from '../actions/actionCreators'
-import { ListGroupItem, Glyphicon, ButtonToolbar, ButtonGroup, Button } from 'react-bootstrap'
+import { ListGroupItem, ButtonToolbar, ButtonGroup, Button } from 'react-bootstrap'
 import { ActionLink } from '../components/ActionLink'
 import { from } from 'rxjs';
 import ClientElement from '../components/ClientElement'
+import NewClientModal from './NewClientModal'
 import { withRouter } from "react-router-dom";
 import {API_URL, API_CLIENT} from '../config/api-settings'
 
@@ -16,6 +17,7 @@ class ClientsListContainer extends Component {
         this.state = {
             clients: this.props.clients || []
         }
+        this.showModal = false;
     }
 
     removeClientAction(id) {
@@ -47,9 +49,13 @@ class ClientsListContainer extends Component {
             this.setState({clients: clients})
             this.props.fillClientList(clients)
           })
-      }
+    }
 
-    render() { 
+    handleModal() {
+        this.showModal
+    }
+
+    renderClientElements() {
         return (this.state.clients && this.state.clients.length > 0) ? (
                 this.state.clients.map(
                     client =>
@@ -71,6 +77,18 @@ class ClientsListContainer extends Component {
                         )
                     )
         ) : (<p>Loading clients...</p>)
+    }  
+
+    render() { 
+        return (
+            <div>
+                <NewClientModal show={this.showModal} ref={newClientModal => this.newClientModal = newClientModal}/>
+                <ButtonToolbar className="main-buttons">
+                    <Button bsStyle="success" onClick={() => this.newClientModal.handleShow()}>Add client ➕</Button>
+                </ButtonToolbar>
+                {this.renderClientElements()}
+            </div>
+        )
     }
 }
 
