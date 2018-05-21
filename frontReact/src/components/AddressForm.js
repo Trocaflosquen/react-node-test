@@ -1,48 +1,43 @@
 import React, { Component } from 'react'
-import { FormControl, ControlLabel } from 'react-bootstrap'
+import FormElement from './FormElement'
 
 class AddressForm extends Component {
 
     constructor(props) {
         super(props)
+        this.formElements = [
+            {
+                propertyName: "city",
+                placeholder: "City",
+                defaultValue: this.props.city || "",
+                inputRef: input => this.city = input
+            },
+            {
+                propertyName: "street",
+                placeholder: "Street",
+                defaultValue: this.props.street || "",
+                inputRef: input => this.street = input
+            },
+            {
+                propertyName: "suite",
+                placeholder: "Suite",
+                defaultValue: this.props.suite || "",
+                inputRef: input => this.suite = input
+            },
+            {
+                propertyName: "zipcode",
+                placeholder: "Zipcode",
+                defaultValue: this.props.zipcode || "",
+                inputRef: input => this.zipcode = input
+            }
+        ]
     }
 
     render() {
         return (
             <div>
                 <h3>Address</h3>
-                <ControlLabel>City</ControlLabel>
-                <FormControl
-                    type="text"
-                    id="city"
-                    placeholder="City"
-                    defaultValue={this.props.city || ""}
-                    inputRef={input => this.city = input}
-                />
-                <ControlLabel>Street</ControlLabel>
-                <FormControl
-                    type="text"
-                    id="street"
-                    placeholder="Catch Phrase"
-                    defaultValue={this.props.street || ""}
-                    inputRef={input => this.street = input}
-                />
-                <ControlLabel>Suite</ControlLabel>
-                <FormControl
-                    type="text"
-                    id="suite"
-                    placeholder="Catch Phrase"
-                    defaultValue={this.props.suite || ""}
-                    inputRef={input => this.suite = input}
-                />
-                <ControlLabel>Zipcode</ControlLabel>
-                <FormControl
-                    type="text"
-                    id="zipcode"
-                    placeholder="Zipcode"
-                    defaultValue={this.props.zipcode || ""}
-                    inputRef={input => this.zipcode = input}
-                />
+                {this.formElements.map((formElement, index) => <FormElement key={index} {...formElement} />)}
             </div>
         )
     }

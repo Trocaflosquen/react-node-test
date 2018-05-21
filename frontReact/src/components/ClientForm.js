@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { FormControl, ControlLabel, FormGroup, Button } from 'react-bootstrap'
+import { FormGroup, Button } from 'react-bootstrap'
+import FormElement from './FormElement'
 import CompanyForm from './CompanyForm'
 import AddressForm from './AddressForm';
 
@@ -8,6 +9,38 @@ class ClientForm extends Component {
     constructor(props) { 
         super(props)
         this.clientId = this.props.client.id
+        this.formElements = [
+            {
+                propertyName: "name",
+                placeholder: "Name",
+                defaultValue: this.props.client.name || "",
+                inputRef: input => this.name = input
+            },
+            {
+                propertyName: "phone",
+                placeholder: "Phone",
+                defaultValue: this.props.client.phone || "",
+                inputRef: input => this.phone = input
+            },
+            {
+                propertyName: "username",
+                placeholder: "Username",
+                defaultValue: this.props.client.username || "",
+                inputRef: input => this.username = input
+            },
+            {
+                propertyName: "email",
+                placeholder: "Email",
+                defaultValue: this.props.client.email || "",
+                inputRef: input => this.email = input
+            },
+            {
+                propertyName: "website",
+                placeholder: "Website",
+                defaultValue: this.props.client.website || "",
+                inputRef: input => this.website = input
+            }
+        ]
     }
 
     doSaveAction = (e) => {
@@ -29,10 +62,10 @@ class ClientForm extends Component {
                 street: this.addressForm.street.value,
                 suite: this.addressForm.suite.value,
                 zipcode: this.addressForm.zipcode.value,
-                geo: {
-                    lat: '',
-                    lng: ''
-                }
+                // geo: {
+                //     lat: '',
+                //     lng: ''
+                // }
             }
         }
         this.props.onSave(clientData)
@@ -42,46 +75,7 @@ class ClientForm extends Component {
         return (
             <form onSubmit={this.doSaveAction}>
                 <FormGroup>
-                    <ControlLabel>Name</ControlLabel>
-                    <FormControl
-                        type="text"
-                        id="name"
-                        defaultValue={this.props.client.name || "" }
-                        placeholder="Name"
-                        inputRef={input => this.name = input}
-                    />
-                    <ControlLabel>Username</ControlLabel>
-                    <FormControl
-                        type="text"
-                        id="username"
-                        defaultValue={this.props.client.username || "" }
-                        placeholder="Username"
-                        inputRef={input => this.username = input}
-                    />
-                    <ControlLabel>Email</ControlLabel>
-                    <FormControl
-                        type="email"
-                        id="email"
-                        defaultValue={this.props.client.email || "" }
-                        placeholder="Email"
-                        inputRef={input => this.email = input}
-                    />
-                    <ControlLabel>Phone</ControlLabel>
-                    <FormControl
-                        type="phone"
-                        id="phone"
-                        defaultValue={this.props.client.phone || "" }
-                        placeholder="Phone"
-                        inputRef={input => this.phone = input}
-                    />
-                    <ControlLabel>Website</ControlLabel>
-                    <FormControl
-                        type="text"
-                        id="website"
-                        defaultValue={this.props.client.website || "" }
-                        placeholder="Website"
-                        inputRef={input => this.website = input}
-                    />
+                    {this.formElements.map((formElement, index) => <FormElement key={index} {...formElement} />)}
                     <CompanyForm ref={companyForm => this.companyForm = companyForm} {...this.props.client.company}/>
                     <AddressForm ref={addressForm => this.addressForm = addressForm} {...this.props.client.address}/>
                     <Button bsStyle="success" type="submit">Save 💾</Button>

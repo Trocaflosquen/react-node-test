@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const logger = require('express-logger');
+const assign = require('object.assign').getPolyfill();
 
 const consoleStamp = require('console-stamp')(console, '[HH:MM:ss.l]');
 const bodyParser = require('body-parser');
@@ -9,7 +10,7 @@ const clientsJson = require('./clients.json');
 const app = express();
 
 morgan.format('mydate', () => console.log(new Date(), 'HH:MM:ss.l'));
-app.use(logger({path: "./logfile.txt"}));
+app.use(logger({path: "./logs/access-log.txt"}));
 app.use(morgan('[:mydate] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -42,13 +43,15 @@ app.route('/client/:id')
         }
     )     
     .put((request, result) => {
-        if(client.id <= 0) {
+        if(request.params.id <= 0) {
             result.status(400).send("Invalid id given");
         }
         try {
-            const clientData = request.body.client; 
-            clientsJson[clientsJson.findIndex(client => client.id == request.params.id)] = clientData;
-            result.status(200).send(clientData);
+            const clientData = request.body.client;
+            const clientToUpdate = clientsJson[clientsJson.findIndex(client => client.id == request.params.id)];
+            clientsJson[clientsJson.findIndex(client => client.id == request.params.id)] = assign(clientToUpdate, {...clientData});
+            const clientUpdated = clientsJson[clientsJson.findIndex(client => client.id == request.params.id)];
+            result.status(200).send(clientUpdated);
         } catch (error) { 
             console.log(error)
             result.status(400).send(error);
