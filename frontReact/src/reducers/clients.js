@@ -6,10 +6,13 @@ const clients = (state = [], action) => {
             return [...state, action.clientData]
         break
         case types.REMOVE_CLIENT:
-            return state.filter(client => client.id != clientId)
+            return state.filter(client => client.id != action.clientId)
         break
         case types.UPDATE_CLIENT:
-            return state.map(client => (client.id === clientId) ? clientData : client)
+            return state.map(client => (client.id === action.clientId) ? clientData : action.client)
+        break
+        case types.FILL_CLIENT_LIST:
+            return [...action.clients]
         break
         default:
             return state

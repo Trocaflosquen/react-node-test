@@ -1,4 +1,7 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { updateClient } from '../actions/actionCreators'
 import { from } from 'rxjs';
 import ClientForm from './ClientForm'
 import {API_URL, API_CLIENT} from '../config/api-settings'
@@ -39,6 +42,7 @@ class Client extends Component {
               })
                 .then(res => {
                     res.json()
+                    this.props.updateClient(id, clientData)
                     toast("Saved successfully", {type: "success"})
                 })
                 .catch(err => {
@@ -56,6 +60,12 @@ class Client extends Component {
         ) : <p>Loading...</p>
     }
 }
+  
+const mapDispatchToProps = dispatch => {
+    return {
+      updateClient: (clientId, clientData) => dispatch(updateClient(clientId, clientData))
+    }
+}
 
-export default Client
+export default connect(null, mapDispatchToProps)(Client)
 

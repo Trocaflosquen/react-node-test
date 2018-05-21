@@ -8,3 +8,6 @@ export const removeClient = (clientId) =>
 
 export const updateClient = (clientId, clientData) =>
   ({ type: types.UPDATE_CLIENT, clientData })  
+
+export const fillClientList = clients =>
+  ({ type: types.FILL_CLIENT_LIST, clients })    

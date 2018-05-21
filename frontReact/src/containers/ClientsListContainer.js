@@ -1,4 +1,7 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fillClientList, removeClient } from '../actions/actionCreators'
 import { ListGroupItem, Glyphicon, ButtonToolbar, ButtonGroup, Button } from 'react-bootstrap'
 import { ActionLink } from '../components/ActionLink'
 import { from } from 'rxjs';
@@ -11,23 +14,24 @@ class ClientsListContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            clients: []
+            clients: this.props.clients || []
         }
     }
 
     removeClientAction(id) {
         return () => {
-            const removeClient = () =>
+            const removeClientPromise = () =>
             fetch(`${API_URL}${API_CLIENT}`+id, {
                 method: 'delete'
               })
                 .then(res => res.json())
                 .catch(err => console.log);
           
-            from(removeClient())
+            from(removeClientPromise())
             .subscribe(() => {
                 const removedIndex = this.state.clients.findIndex(client => client.id == id)
                 this.setState({clients: [...this.state.clients.filter(client => client.id != id)] })
+                this.props.removeClient(id)
             })
         } 
     }
@@ -41,11 +45,12 @@ class ClientsListContainer extends Component {
           from(getClients())
           .subscribe(clients => { 
             this.setState({clients: clients})
+            this.props.fillClientList(clients)
           })
       }
 
     render() { 
-        return (
+        return (this.state.clients && this.state.clients.length > 0) ? (
                 this.state.clients.map(
                     client =>
                         (
@@ -65,8 +70,21 @@ class ClientsListContainer extends Component {
                             </div>
                         )
                     )
-        )
+        ) : (<p>Loading clients...</p>)
     }
 }
 
-export default withRouter(ClientsListContainer)
+const mapStateToProps = state => {
+    return {
+      clients : state
+    }
+}
+  
+const mapDispatchToProps = dispatch => {
+    return {
+      fillClientList: (clients) => dispatch(fillClientList(clients)),
+      removeClient: (clientId) => dispatch(removeClient(clientId))
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClientsListContainer))
