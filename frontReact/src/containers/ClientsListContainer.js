@@ -82,9 +82,9 @@ class ClientsListContainer extends Component {
     render() { 
         return (
             <div>
-                <NewClientModal show={this.showModal} ref={newClientModal => this.newClientModal = newClientModal}/>
+                <NewClientModal show={this.showModal} ref={"newClientModal"}/>
                 <ButtonToolbar className="main-buttons">
-                    <Button bsStyle="success" onClick={() => this.newClientModal.handleShow()}>Add client ➕</Button>
+                    <Button bsStyle="success" onClick={() => this.refs.newClientModal.getWrappedInstance().handleShow()}>Add client ➕</Button>
                 </ButtonToolbar>
                 {this.renderClientElements()}
             </div>

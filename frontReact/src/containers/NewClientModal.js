@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Modal, ButtonGroup, Button } from 'react-bootstrap'
 import ClientForm from '../components/ClientForm'
+import { connect } from 'react-redux'
 
 class NewClientModal extends Component {
 
@@ -24,6 +25,29 @@ class NewClientModal extends Component {
         this.setState({show: props.show})
     }
 
+    saveNewClientAction() {
+        return (clientData) => {
+            fetch(`${API_URL}${API_CLIENT}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ client: clientData})
+              })
+                .then(res => {
+                    res.json().then(newClientData => {
+                       // this.props.addNewClient(newClientData)
+                        toast("Saved successfully", {type: "success"})
+                    })
+                })
+                .catch(err => {
+                    console.log(err)
+                    toast("Couldn't save. Try again", {type: "error"})
+                });
+        } 
+    }
+
     render() {
         return (
             <div className="static-modal">
@@ -32,7 +56,7 @@ class NewClientModal extends Component {
                     <Modal.Title>New client</Modal.Title>
                     </Modal.Header>
 
-                    <Modal.Body><ClientForm client={{}}/></Modal.Body>
+                    <Modal.Body><ClientForm client={{}} onSave={this.saveNewClientAction()}/></Modal.Body>
 
                     <Modal.Footer>
                     <Button onClick={this.handleClose}>Close</Button>
@@ -43,4 +67,10 @@ class NewClientModal extends Component {
     }
 }
 
-export default NewClientModal
+const mapDispatchToProps = dispatch => {
+    return {
+      addNewClient: (clientData) => dispatch(addClient(clientData))
+    }
+}
+
+export default connect(null, mapDispatchToProps, null, { withRef: true })(NewClientModal)

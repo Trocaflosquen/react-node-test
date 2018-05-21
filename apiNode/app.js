@@ -7,6 +7,8 @@ const consoleStamp = require('console-stamp')(console, '[HH:MM:ss.l]');
 const bodyParser = require('body-parser');
 const clientsJson = require('./clients.json');
 
+let newClientIdToAdd = clientsJson.length+1;
+
 const app = express();
 
 morgan.format('mydate', () => console.log(new Date(), 'HH:MM:ss.l'));
@@ -52,6 +54,18 @@ app.route('/client/:id')
             clientsJson[clientsJson.findIndex(client => client.id == request.params.id)] = assign(clientToUpdate, {...clientData});
             const clientUpdated = clientsJson[clientsJson.findIndex(client => client.id == request.params.id)];
             result.status(200).send(clientUpdated);
+        } catch (error) { 
+            console.log(error)
+            result.status(400).send(error);
+        }
+    })
+    .post((request, result) => {
+        try {
+            const clientData = request.body.client;
+            clientData.id = newClientIdToAdd;
+            newClientIdToAdd++;
+            clientsJson = [...clientsJson, clientData]
+            result.status(200).send(clientData);
         } catch (error) { 
             console.log(error)
             result.status(400).send(error);

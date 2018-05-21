@@ -52,8 +52,6 @@ class Client extends Component {
         } 
     }
 
-
-
     render() {
         return (Object.keys(this.state.client).length > 0) ? (
             <ClientForm client={this.state.client} onSave={this.updateClientAction(this.state.client.id)}/>
