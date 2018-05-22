@@ -53,22 +53,26 @@ app.route('/client/:id')
             const clientToUpdate = clientsJson[clientsJson.findIndex(client => client.id == request.params.id)];
             clientsJson[clientsJson.findIndex(client => client.id == request.params.id)] = assign(clientToUpdate, {...clientData});
             const clientUpdated = clientsJson[clientsJson.findIndex(client => client.id == request.params.id)];
+            console.log(`Client with id: ${request.params.id} updated with`, clientUpdated)
             result.status(200).send(clientUpdated);
         } catch (error) { 
             console.log(error)
             result.status(400).send(error);
         }
     })
+
+app.route('/client')
     .post((request, result) => {
         try {
-            const clientData = request.body.client;
-            clientData.id = newClientIdToAdd;
+            const newClientData = request.body.client;
+            newClientData.id = newClientIdToAdd;
             newClientIdToAdd++;
-            clientsJson = [...clientsJson, clientData]
-            result.status(200).send(clientData);
+            clientsJson.push(newClientData);
+            console.log(`Client added with id: ${newClientData.id}`, newClientData)
+            result.status(200).send(newClientData);
         } catch (error) { 
             console.log(error)
-            result.status(400).send(error);
+            result.status(500).send(error);
         }
     })
 

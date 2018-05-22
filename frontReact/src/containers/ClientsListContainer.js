@@ -51,6 +51,12 @@ class ClientsListContainer extends Component {
           })
     }
 
+    componentWillReceiveProps(nextProps) { 
+        if(this.props.clients !== nextProps.clients) {
+            this.setState(nextProps.clients)
+        }    
+    }
+
     handleModal() {
         this.showModal
     }

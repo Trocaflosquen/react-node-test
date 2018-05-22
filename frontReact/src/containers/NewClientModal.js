@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import { Modal, ButtonGroup, Button } from 'react-bootstrap'
 import ClientForm from '../components/ClientForm'
 import { connect } from 'react-redux'
+import { addClient} from '../actions/actionCreators'
+import {toast} from 'react-toastify'
+import {API_URL, API_CLIENT} from '../config/api-settings'
 
 class NewClientModal extends Component {
 
@@ -37,8 +40,9 @@ class NewClientModal extends Component {
               })
                 .then(res => {
                     res.json().then(newClientData => {
-                       // this.props.addNewClient(newClientData)
+                       this.props.addNewClient(newClientData)
                         toast("Saved successfully", {type: "success"})
+                        this.handleClose()
                     })
                 })
                 .catch(err => {
