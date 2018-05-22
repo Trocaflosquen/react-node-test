@@ -82,7 +82,7 @@ class ClientsListContainer extends Component {
                             </div>
                         )
                     )
-        ) : (<p>Loading clients...</p>)
+        ) : (<p>Clients empty</p>)
     }  
 
     render() { 
