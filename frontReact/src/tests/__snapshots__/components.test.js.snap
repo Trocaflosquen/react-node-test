@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Link changes the class when hovered 1`] = `
+exports[`ClientForm should be rendered correctly with client data given 1`] = `
 <form
   onSubmit={[Function]}
 >
@@ -203,4 +203,93 @@ exports[`Link changes the class when hovered 1`] = `
     </button>
   </div>
 </form>
+`;
+
+exports[`ClientsListContainer should print a list of clients 1`] = `
+<div>
+  <div
+    className="static-modal"
+  />
+  <div
+    className="main-buttons btn-toolbar"
+    role="toolbar"
+  >
+    <button
+      className="btn btn-success"
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      Add client ➕
+    </button>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-10"
+    >
+      <button
+        className="client-list-element list-group-item"
+        onClick={[Function]}
+        type="button"
+      >
+        <p>
+          👤 
+          Leanne Graham
+        </p>
+      </button>
+    </div>
+    <div
+      className="col-xs-2 list-button"
+    >
+      <div
+        className="btn-group"
+      >
+        <button
+          className="btn btn-default"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          🔪
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-10"
+    >
+      <button
+        className="client-list-element list-group-item"
+        onClick={[Function]}
+        type="button"
+      >
+        <p>
+          👤 
+          Ervin Howell
+        </p>
+      </button>
+    </div>
+    <div
+      className="col-xs-2 list-button"
+    >
+      <div
+        className="btn-group"
+      >
+        <button
+          className="btn btn-default"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          🔪
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 `;

@@ -15,7 +15,7 @@ class ClientsListContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            clients: this.props.clients || []
+            clients: this.props.clients.clients || []
         }
         this.showModal = false;
     }
@@ -39,16 +39,18 @@ class ClientsListContainer extends Component {
     }
 
     componentWillMount() { 
-        const getClients = () =>
-          fetch(`${API_URL}/`)
-            .then(res => res.json())
-            .catch(err => console.log);
-          
-          from(getClients())
-          .subscribe(clients => { 
-            this.setState({clients: clients})
-            this.props.fillClientList(clients)
-          })
+        if(this.state.clients.length === 0) { 
+            const getClients = () =>
+            fetch(`${API_URL}/`)
+                .then(res => res.json())
+                .catch(err => console.log);
+            
+            from(getClients())
+            .subscribe(clients => { 
+                this.setState({clients: clients})
+                this.props.fillClientList(clients)
+            })
+        }    
     }
 
     componentWillReceiveProps(nextProps) { 

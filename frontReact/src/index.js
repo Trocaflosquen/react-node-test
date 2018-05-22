@@ -6,8 +6,6 @@ import { BrowserRouter } from 'react-router-dom'
 import ClientsListContainer from './containers/ClientsListContainer'
 import Client from './components/Client'
 
-// import './styles/style.css'
-
 import store, { history } from './store'
 
 import App from './components/App'
