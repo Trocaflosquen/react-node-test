@@ -8,8 +8,8 @@ const clients = (state = [], action) => {
         case types.REMOVE_CLIENT:
             return state.filter(client => client.id != action.clientId)
         break
-        case types.UPDATE_CLIENT:
-            return state.map(client => (client.id === action.clientId) ? clientData : action.client)
+        case types.UPDATE_CLIENT: 
+            return state.map(client => (client.id !== action.clientId) ? client : action.clientData)
         break
         case types.FILL_CLIENT_LIST:
             return [...action.clients]

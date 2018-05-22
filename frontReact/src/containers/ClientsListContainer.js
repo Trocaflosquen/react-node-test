@@ -62,10 +62,10 @@ class ClientsListContainer extends Component {
         this.showModal
     }
 
-    renderClientElements() {
+    renderClientElements() { console.log(this.state.clients)
         return (this.state.clients && this.state.clients.length > 0) ? (
                 this.state.clients.map(
-                    client =>
+                    (client, index) =>
                         (
                             <div className="row" key={client.id}>
                                 <div className="col-xs-10">
