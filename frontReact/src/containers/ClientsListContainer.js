@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fillClientList, removeClient } from '../actions/actionCreators'
 import { ListGroupItem, ButtonToolbar, ButtonGroup, Button } from 'react-bootstrap'
-import { ActionLink } from '../components/ActionLink'
 import { from } from 'rxjs';
 import ClientElement from '../components/ClientElement'
 import NewClientModal from './NewClientModal'
